@@ -62,9 +62,10 @@ const handleSubmit = async (e) => {
   e.preventDefault()
 
   const data = new FormData(form)
-
+  const value = data.get('prompt')
+  if (!value) return;
   // user's chatstripe
-  chatContainer.innerHTML += chatStripe(false, data.get('prompt'))
+  chatContainer.innerHTML += chatStripe(false, value)
 
   // to clear the textarea input 
   form.reset()
@@ -82,8 +83,8 @@ const handleSubmit = async (e) => {
   // messageDiv.innerHTML = "..."
   loader(messageDiv)
 
-  const res = await fetch('http://localhost:4000', {
-    body: JSON.stringify({ data: data.get('prompt').trim() }),
+  const res = await fetch('https://codex-uf0x.onrender.com', {
+    body: JSON.stringify({ data: value.trim() }),
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
